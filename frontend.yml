@@ -15,8 +15,13 @@
     
     - name: remove default content on nginx server
       ansible.builtin.file:
-        path: /usr/share/nginx/html/*
+        path: /usr/share/nginx/html
         state: absent
+    
+    - name: create html directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: directory
     
     - name: download frontend content
       ansible.builtin.get_url:
