@@ -52,9 +52,6 @@
         src: /home/ec2-user/ansible-project/backend.service
         dest: /etc/systemd/system/backend.service
 
-    # - name: reload daemon
-    #   ansible.builtin.command: systemctl daemon-reload
-
     - name: install mysql
       ansible.builtin.dnf:
         name: mysql
@@ -75,3 +72,13 @@
         target: /app/schema/backend.sql
         state: import
         name: all
+
+    - name: reload daemon
+      ansible.builtin.systemd_service: 
+        daemon_reload: true
+
+    - name: start and enable backend service
+      ansible.builtin.service:
+        name: backend
+        state: started
+        enabled: true
