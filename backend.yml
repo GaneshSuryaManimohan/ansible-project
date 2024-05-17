@@ -55,6 +55,11 @@
     # - name: reload daemon
     #   ansible.builtin.command: systemctl daemon-reload
 
+    - name: install mysql
+      ansible.builtin.dnf:
+        name: mysql
+        state: latest
+
     - name: install python mysql dependencies
       ansible.builtin.pip:
         name:
