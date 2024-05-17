@@ -34,7 +34,7 @@
         dest: /usr/share/nginx/html
         remote_src: yes
 
-    - name: create expense.conf
+    - name: copy expense.conf
       ansible.builtin.copy:
         src: /home/ec2-user/ansible-project/expense.conf
         dest: /etc/nginx/default.d/expense.conf
