@@ -1,6 +1,12 @@
 - name: configure backend
   hosts: backend
   become: true
+  vars:
+    login_host: db.surya-devops.online
+  vars_prompt:
+  - name: mysql_root_password
+    prompt: Please enter MYSQL root password
+    private: false
   tasks:
     - name: disable nodejs
       ansible.builtin.command: dnf module disable nodejs -y
@@ -40,3 +46,19 @@
       ansible.builtin.command: npm install
       args:
         chdir: /app
+
+    - name: create backend.service
+      ansible.builtin.copy:
+        src: /home/ec2-user/ansible-project/backend.service
+        dest: /etc/systemd/system/backend.service
+
+    # - name: reload daemon
+    #   ansible.builtin.command: systemctl daemon-reload
+
+    - name: load mysql data
+      community.mysql.mysql_db:
+      login_user: root
+        login_password: "{{mysql_root_password}}"
+        login_host: "{{login_host}}"
+        target: /app/schema/backend.sql
+        state: dump
