@@ -14,7 +14,7 @@
         enabled: true
     
     - name: remove default content on nginx server
-      ansible.buitin.file:
+      ansible.builtin.file:
         path: /usr/share/nginx/html/*
         state: absent
     
